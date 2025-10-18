@@ -1,3 +1,34 @@
+/* 1. Avenir Regular (Normal) */
+@font-face {
+  font-family: 'Avenir';
+  src: url('/avenir-regular.woff2') format('woff2');
+  font-weight: 400; /* Regular = 400 */
+  font-style: normal;
+}
+
+/* 2. Avenir Medium */
+@font-face {
+  font-family: 'Avenir';
+  src: url('/avenir-medium.woff2') format('woff2');
+  font-weight: 500; /* Medium = 500 */
+  font-style: normal;
+}
+
+/* 3. Avenir Demibold (atau Semibold) */
+@font-face {
+  font-family: 'Avenir';
+  src: url('/avenir-demibold.woff2') format('woff2');
+  font-weight: 600; /* Demibold = 600 */
+  font-style: normal;
+}
+
+/* 4. Avenir Bold */
+@font-face {
+  font-family: 'Avenir';
+  src: url('./avenir-bold.woff2') format('woff2');
+  font-weight: 700; /* Bold = 700 */
+  font-style: normal;
+}
 
 h1,
 h2,
