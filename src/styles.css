@@ -1,17 +1,60 @@
+
+h1,
+h2,
+h3,
+p,
+ul,
+li,
+a,
+body,
+img {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #dbdbdb;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 .App {
   font-family: sans-serif;
   text-align: center;
-  border: 1px solid black;
-  width: 800px;
-  height: 500px;
+  width: 544px;
+  height: 470px;
+  object-position: center;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 16px 0px #0B113433;
+  border-radius: 4px 4px 0 0;
 }
 
 .mainPic {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
+  border-radius: 4px 4px 0 0;
 }
 
 .mainContent {
-
+  height: fit-content;
+  width: fit-content;
+  gap: 0px;
+  padding: 0px;
 }
+
+.mainContent {
+  height: fit-content;
+  width: fit-content;
+  gap: 0px;
+  padding: 0px;
+}
+
+.topContent{
+  height: 112px;
+  width: 488px;
+}
+
+
+
+

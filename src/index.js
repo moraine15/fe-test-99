@@ -6,6 +6,7 @@ import App from "./App";
 const rootElement = document.getElementById("root");
 const store = {
   pic: "https://images.prismic.io/99-content/dc1594fb-f413-44ff-b8b5-c3ba6cd539cd_vbWkNuxt2hjgidVttoMRDX.jpg?auto=compress,format&w=2000&q=100",
+  icon:"./public/building-icon.svg",
   title: "Forett At Bukit Timah",
   address: "70 Anchorvale Crescent · D21",
   project_type: "Condo",
