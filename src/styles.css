@@ -1,44 +1,68 @@
-/* 1. Avenir Regular (Normal) */
-@font-face {
-  font-family: 'Avenir';
-  src: url('/avenir-regular.woff2') format('woff2');
-  font-weight: 400; /* Regular = 400 */
-  font-style: normal;
+:root {
+  --font-family-primary: 'Avenir', Arial, Helvetica, sans-serif;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-demibold: 700;
+  --font-weight-bold: 900;
+  --font-size-14: 14px;
+  --font-size-16: 16px;
+  --font-size-19: 19px;
+  --font-size-20: 20px;
+  --color-primary: #1A2258;
+  --color-primary-light: #2563EB;
+  --color-text-secondary: #787D9C;
+  --color-text-tertiary: #374151;
+  --color-text-muted: #6B7280;
+  --color-background: #FFFFFF;
+  --color-background-page: #DBDBDB;
+  --gap-2: 2px;
+  --gap-4: 4px;
+  --gap-12: 12px;
+  --card-width: 544px;
+  --card-height: 470px;
+  --image-width: 544px;
+  --image-height: 272px;
+  --content-width: 496px;
+  --content-height: 150px;
+  --top-content-height: 112px;
+  --icon-size: 40px;
+  --border-radius: 4px;
+  --shadow-card: 0px 4px 16px 0px #0B113433;
 }
 
-/* 2. Avenir Medium */
 @font-face {
   font-family: 'Avenir';
-  src: url('/avenir-medium.woff2') format('woff2');
-  font-weight: 500; /* Medium = 500 */
+  src: url('fonts/avenir-regular.woff2') format('woff2');
+  font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 
-/* 3. Avenir Demibold (atau Semibold) */
 @font-face {
   font-family: 'Avenir';
-  src: url('/avenir-demibold.woff2') format('woff2');
-  font-weight: 600; /* Demibold = 600 */
+  src: url('fonts/avenir-medium.woff2') format('woff2');
+  font-weight: 500;
   font-style: normal;
+  font-display: swap;
 }
 
-/* 4. Avenir Bold */
 @font-face {
   font-family: 'Avenir';
-  src: url('./avenir-bold.woff2') format('woff2');
-  font-weight: 700; /* Bold = 700 */
+  src: url('fonts/avenir-demibold.woff2') format('woff2');
+  font-weight: 700;
   font-style: normal;
+  font-display: swap;
 }
 
-h1,
-h2,
-h3,
-p,
-ul,
-li,
-a,
-body,
-img {
+@font-face {
+  font-family: 'Avenir';
+  src: url('fonts/avenir-bold.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+h1, h2, h3, p, ul, li, a, body, img {
   margin: 0;
   padding: 0;
   font-size: unset;
@@ -49,35 +73,41 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #dbdbdb;
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-background-page);
+  font-family: var(--font-family-primary);
 }
 
 .App {
-  font-family: sans-serif;
   text-align: center;
-  width: 544px;
-  height: 470px;
-  background-color: #ffffff;
-  box-shadow: 0px 4px 16px 0px #0B113433;
-  border-radius: 4px 4px 0 0;
+  width: var(--card-width);
+  height: var(--card-height);
+  background-color: var(--color-background);
+  box-shadow: var(--shadow-card);
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-
 }
 
 .mainPic {
-  border-radius: 4px 4px 0 0;
-  vertical-align: top
+  width: var(--image-width);
+  height: var(--image-height);
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  vertical-align: top;
+}
+
+.icon {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  flex-shrink: 0;
 }
 
 .mainContent {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 150px;
-  width: 496px;
+  height: var(--content-height);
+  width: var(--content-width);
   margin: auto;
 }
 
@@ -86,118 +116,102 @@ body {
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
-  height: 112px;
-  width: 496px;
+  height: var(--top-content-height);
+  width: var(--content-width);
 }
 
-/* Left Content Container */
 .leftContent {
   display: flex;
   flex-direction: column;
-  height: 100%;          /* isi penuh tinggi topContent */
+  height: 100%;
 }
 
-/* Left Top Content - Icon + Title + Address horizontal */
 .leftTopContent {
   display: flex;
   align-items: center;
-  gap: 12px;
-}
-
-.icon {
-  flex-shrink: 0;
+  gap: var(--gap-12);
 }
 
 .textLeftTopContent {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--gap-4);
   text-align: left;
-}
-
-.title {
-  font-size: 20px;
-  font-weight: 600;
-  color: #1A2258;
-  line-height: 1.2;
-}
-
-.address {
-  font-size: 14px;
-  color: #787D9C;
-  line-height: 1.4;
 }
 
 .leftBotContent {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--gap-2);
   width: 100%;
   text-align: left;
-  /* height: 100%; */     /* hapus */
-  /* object-position: bottom; */ /* hapus */
-  margin-top: auto;       /* dorong ke bawah */
+  margin-top: auto;
 }
+
+.title {
+  font-size: var(--font-size-20);
+  font-weight: var(--font-weight-demibold);
+  color: var(--color-primary);
+  line-height: 1.2;
+}
+
+.address {
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
 .labelTop {
-  font-size: 16px;
-  color: #374151;
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-tertiary);
 }
 
 .labelBot {
-  font-size: 16px;
-  color: #374151;
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-tertiary);
 }
 
-/* Right Content - Price area */
 .rightContent {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 4px;
+  gap: var(--gap-4);
   text-align: right;
 }
 
 .price {
-  font-size: 19px;
-  font-weight: 600;
-  color: #1A2258;
+  font-size: var(--font-size-19);
+  font-weight: var(--font-weight-demibold);
+  color: var(--color-primary);
 }
 
 .priceFrom {
-  font-size: 14px;
-  color: #6B7280;
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-muted);
 }
 
-/* Bottom Content - Button dan Description */
 .bottomContent {
   width: 100%;
   text-align: right;
   background: none;
   border: none;
-  color: #2563EB;
-  margin-top: auto; 
+  color: var(--color-primary-light);
+  margin-top: auto;
 }
 
 .bottomContent button {
   background: none;
   border: none;
-  color: #2563EB;
-  font-size: 14px;
-  margin: 0;   /* pastikan tidak ada margin */
+  color: var(--color-primary-light);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-demibold);
+  font-family: inherit;
+  margin: 0;
   padding: 0;
   cursor: pointer;
   text-decoration: none;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

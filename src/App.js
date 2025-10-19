@@ -1,5 +1,5 @@
 import "./styles.css";
-export default function ListingAd({icon, pic, title, address, description ,availabilities_label, subprice_label,project_type,year,ownership_type }) {
+export default function ListingAd({price,icon, pic, title, address, description ,availabilities_label, subprice_label,project_type,year,ownership_type }) {
   return (
     <div className="App">
       <img className="mainPic" width="544" height="272" src={pic} />
@@ -10,7 +10,7 @@ export default function ListingAd({icon, pic, title, address, description ,avail
               <div className="leftTopContent">
                 <img className="icon" width="40" height="40" src={icon}/>
                   <div className="textLeftTopContent">
-                    <p className="title">{title}</p>
+                    <h1 className="title">{title}</h1>
                     <p className="address">{address}</p>
                   </div>
               </div>
@@ -22,7 +22,7 @@ export default function ListingAd({icon, pic, title, address, description ,avail
 
             <div className="rightContent">
               <div className="price">
-                <h1>$2,609 - $3,043 psf</h1>
+                <h1>{price}</h1>
               </div>
               <p className="priceFrom">{subprice_label}</p>
             </div>
