@@ -1,10 +1,19 @@
 import "./styles.css";
-export default function ListingAd({price,icon, pic, title, address, description ,availabilities_label, subprice_label,project_type,year,ownership_type }) {
+export default function ListingAd({flag, arrow_left, arrow_right, price,icon, pic, title, address, description ,availabilities_label, subprice_label,project_type,year,ownership_type }) {
   return (
     <div className="App">
-      <img className="mainPic" width="544" height="272" src={pic} />
+      <div className="imageContainer">
+        {flag && <img className="flag" src={flag} alt="Flag" />}
+        <img className="mainPic" src={pic} alt={title} />
+        
+        <button className="arrowBtn arrowLeft">
+          <img src={arrow_left} alt="Previous" />
+        </button>
+        <button className="arrowBtn arrowRight">
+          <img src={arrow_right} alt="Next" />
+        </button>
+      </div>
       <div className="mainContent">
-
         <div className="topContent">
             <div className="leftContent">
               <div className="leftTopContent">

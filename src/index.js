@@ -17,11 +17,13 @@ const store = {
   subprice_label: "Prices from $1.99M",
   availabilities_label: "231 units · 1, 2, 3, 4 bedrooms",
   description: `Phone number: 8234 5678
-
 Superb 3 bedroom in sentosa for a very affordable price and a very nearby bus
 station.
 
 Please call Alex B (CEA No: R0123456) @  82345678 or the owner (83456789) to arrange for a viewing.`,
+  arrow_left:"/Chevron left.svg",
+  arrow_right:"/Chevron right.svg",
+  flag:"/flag.png"
 };
 
 ReactDOM.render(

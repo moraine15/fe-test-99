@@ -18,8 +18,9 @@
   --gap-2: 2px;
   --gap-4: 4px;
   --gap-12: 12px;
-  --card-width: 544px;
+  --card-width: 544px; /* Back to original */
   --card-height: 470px;
+  --image-container-width: 552px; /* 544 + 8px */
   --image-width: 544px;
   --image-height: 272px;
   --content-width: 496px;
@@ -84,7 +85,7 @@ body {
   background-color: var(--color-background);
   box-shadow: var(--shadow-card);
   border-radius: var(--border-radius) var(--border-radius) 0 0;
-  overflow: hidden;
+  overflow: visible; /* Allow imageContainer to extend beyond */
   display: flex;
   flex-direction: column;
 }
@@ -94,6 +95,7 @@ body {
   height: var(--image-height);
   border-radius: var(--border-radius) var(--border-radius) 0 0;
   vertical-align: top;
+  margin: 0 4px; /* Center the 544px image within 552px container */
 }
 
 .icon {
@@ -214,4 +216,167 @@ body {
   padding: 0;
   cursor: pointer;
   text-decoration: none;
+  transition: color 160ms ease;
 }
+
+.bottomContent button:hover {
+  color: #1757D7;
+}
+
+/* Image container prepared for positioned arrows + inner shadow */
+.imageContainer {
+  position: relative;
+  width: var(--image-container-width); /* 552px - extends 4px on each side */
+  height: var(--image-height);
+  overflow: visible;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  margin-left: -4px; /* Shift left 4px to extend beyond App */
+}
+
+/* Inner shadow on left, right, and bottom (appears on hover/focus) */
+.imageContainer::after {
+  content: "";
+  position: absolute;
+  left: 4px; /* Start at the main image left edge */
+  top: 0;
+  width: var(--image-width); /* Only cover 544px image area */
+  height: 100%;
+  pointer-events: none;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  opacity: 0;
+  transition: opacity 180ms ease;
+  background:
+    /* left: 0% -> 30% alpha to 100% -> 0% alpha */
+    linear-gradient(to right, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 100%) left center / 90px 100% no-repeat,
+    /* right: 0% -> 30% alpha to 100% -> 0% alpha */
+    linear-gradient(to left,  rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 100%) right center / 90px 100% no-repeat,
+    /* bottom: 0% -> 50% alpha to 100% -> 0% alpha */
+    linear-gradient(to top,   rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%) center bottom / 100% 90px no-repeat;
+}
+
+.imageContainer:hover::after,
+.imageContainer:focus-within::after {
+  opacity: 1;
+}
+
+/* Arrow buttons: transparent, exact size, animated reveal */
+.arrowBtn {
+  position: absolute;
+  top: 50%;
+  width: 15.95px;
+  height: 27.72px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  z-index: 2;
+
+  opacity: 0;
+  transform: translateY(-50%);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.arrowBtn img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Left and right placement with initial slide offset */
+.arrowLeft { left: 20px;  transform: translate(-8px, -50%); }
+.arrowRight { right: 20px; transform: translate(8px, -50%); }
+
+/* Reveal on hover/focus of the image container */
+.imageContainer:hover .arrowBtn,
+.imageContainer:focus-within .arrowBtn {
+  opacity: 1;
+  transform: translate(0, -50%);
+}
+
+/* Flag positioned in the extended area */
+.flag {
+  position: absolute;
+  top: 6px;
+  left: 0px; /* Now at the actual left edge of imageContainer */
+  z-index: 3;
+  pointer-events: none;
+}
+
+@media (max-width: 675px) {
+  :root {
+    --card-width: 343px;
+    --card-height: 351px;
+    --image-width: 343px;
+    --image-height: 160.62px;
+    --content-width: 311px;
+  }
+
+  .App {
+    width: var(--card-width);
+    height: var(--card-height);
+  }
+
+  .imageContainer {
+    width: calc(var(--image-width) + 8px);
+    margin-left: -4px;
+  }
+
+  .mainPic {
+    width: var(--image-width);
+    height: var(--image-height);
+  }
+
+  .mainContent {
+    width: var(--content-width);
+    height: auto;
+    align-items: flex-start;
+    margin: 16px auto 0;
+    gap: 12px;
+  }
+
+  .topContent {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    width: 100%;
+    height: auto;
+  }
+
+  .rightContent {
+    order: 2;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .title {
+    font-size: 16px;
+  }
+
+  .address {
+    font-size: 12px;
+    font-weight: var(--font-weight-medium);
+  }
+
+  .labelBot {
+    font-size: 14px;
+  }
+
+  .price h1 {
+    font-size: 16px;
+    font-weight: var(--font-weight-demibold);
+  }
+
+  .priceFrom {
+    font-size: 12px;
+    font-weight: var(--font-weight-medium);
+  }
+
+  .bottomContent button {
+    font-size: 14px;
+    font-weight: var(--font-weight-demibold);
+  }
+}
+
+
