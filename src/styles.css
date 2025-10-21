@@ -18,9 +18,10 @@
   --gap-2: 2px;
   --gap-4: 4px;
   --gap-12: 12px;
-  --card-width: 544px; /* Back to original */
+  --gap-24: 24px;
+  --card-width: 544px;
   --card-height: 470px;
-  --image-container-width: 552px; /* 544 + 8px */
+  --image-container-width: 552px;
   --image-width: 544px;
   --image-height: 272px;
   --content-width: 496px;
@@ -81,13 +82,14 @@ body {
 .App {
   text-align: center;
   width: var(--card-width);
-  height: var(--card-height);
+  min-height: var(--card-height);
   background-color: var(--color-background);
   box-shadow: var(--shadow-card);
   border-radius: var(--border-radius) var(--border-radius) 0 0;
-  overflow: visible; /* Allow imageContainer to extend beyond */
+  overflow: visible;
   display: flex;
   flex-direction: column;
+  transition: min-height 300ms ease;
 }
 
 .mainPic {
@@ -95,7 +97,7 @@ body {
   height: var(--image-height);
   border-radius: var(--border-radius) var(--border-radius) 0 0;
   vertical-align: top;
-  margin: 0 4px; /* Center the 544px image within 552px container */
+  margin: 0 4px;
 }
 
 .icon {
@@ -108,9 +110,9 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: var(--content-height);
+  min-height: var(--content-height);
   width: var(--content-width);
-  margin: auto;
+  padding:24px ;
 }
 
 .topContent {
@@ -132,6 +134,7 @@ body {
   display: flex;
   align-items: center;
   gap: var(--gap-12);
+  gap: 16px; /* logo ↔ textLeftTopContent = 16px */
 }
 
 .textLeftTopContent {
@@ -155,6 +158,7 @@ body {
   font-weight: var(--font-weight-demibold);
   color: var(--color-primary);
   line-height: 1.2;
+  font-size: 23px; /* Forett At Bukit Timah 23 DemiBold */
 }
 
 .address {
@@ -196,6 +200,44 @@ body {
   color: var(--color-text-muted);
 }
 
+/* Description Section */
+.descriptionSection {
+  width: 100%;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 300ms ease, opacity 300ms ease, margin-top 300ms ease;
+}
+
+.descriptionSection.visible {
+  max-height: 1000px;
+  opacity: 1;
+  margin-top: var(--gap-24);
+  margin-top: 12px; /* gap with topContent when visible = 12px */
+}
+
+.description {
+  width: 100%;
+  text-align: left;
+}
+
+.descriptionText {
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-tertiary);
+  line-height: 1.5;
+  margin-bottom: 8px;
+  margin-bottom: 12px; /* antar paragraph deskripsi = 12px */
+}
+
+.descriptionText:last-child {
+  margin-bottom: 0;
+}
+
+.phone-number {
+  display: inline;
+}
+
 .bottomContent {
   width: 100%;
   text-align: right;
@@ -203,6 +245,7 @@ body {
   border: none;
   color: var(--color-primary-light);
   margin-top: auto;
+  margin-top: 12px; /* gap topContent ↔ See/Hide description = 12px (also 12px after descriptionSection) */
 }
 
 .bottomContent button {
@@ -226,31 +269,28 @@ body {
 /* Image container prepared for positioned arrows + inner shadow */
 .imageContainer {
   position: relative;
-  width: var(--image-container-width); /* 552px - extends 4px on each side */
+  width: var(--image-container-width);
   height: var(--image-height);
   overflow: visible;
   border-radius: var(--border-radius) var(--border-radius) 0 0;
-  margin-left: -4px; /* Shift left 4px to extend beyond App */
+  margin-left: -4px;
 }
 
 /* Inner shadow on left, right, and bottom (appears on hover/focus) */
 .imageContainer::after {
   content: "";
   position: absolute;
-  left: 4px; /* Start at the main image left edge */
+  left: 4px;
   top: 0;
-  width: var(--image-width); /* Only cover 544px image area */
+  width: var(--image-width);
   height: 100%;
   pointer-events: none;
   border-radius: var(--border-radius) var(--border-radius) 0 0;
   opacity: 0;
   transition: opacity 180ms ease;
   background:
-    /* left: 0% -> 30% alpha to 100% -> 0% alpha */
     linear-gradient(to right, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 100%) left center / 90px 100% no-repeat,
-    /* right: 0% -> 30% alpha to 100% -> 0% alpha */
     linear-gradient(to left,  rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 100%) right center / 90px 100% no-repeat,
-    /* bottom: 0% -> 50% alpha to 100% -> 0% alpha */
     linear-gradient(to top,   rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%) center bottom / 100% 90px no-repeat;
 }
 
@@ -298,7 +338,7 @@ body {
 .flag {
   position: absolute;
   top: 6px;
-  left: 0px; /* Now at the actual left edge of imageContainer */
+  left: 0px;
   z-index: 3;
   pointer-events: none;
 }
@@ -310,11 +350,13 @@ body {
     --image-width: 343px;
     --image-height: 160.62px;
     --content-width: 311px;
+    --gap-24: 16px;
   }
 
   .App {
     width: var(--card-width);
-    height: var(--card-height);
+    /* make card auto-fit content to remove extra empty space */
+    min-height: auto;
   }
 
   .imageContainer {
@@ -329,54 +371,98 @@ body {
 
   .mainContent {
     width: var(--content-width);
-    height: auto;
+    min-height: auto;
     align-items: flex-start;
-    margin: 16px auto 0;
-    gap: 12px;
+    /* margin/padding main content = 16px as requested */
+    padding: 16px;
   }
 
   .topContent {
     flex-direction: column;
     align-items: flex-start;
+    /* leftContent (top) to rightContent gap = 12px */
     gap: 12px;
     width: 100%;
     height: auto;
+  }
+
+  /* gap building icon dengan left top content = 16px */
+  .leftTopContent {
+    gap: 16px;
+  }
+
+  /* gap dari left top content ke leftBotContent = 12px */
+  .leftContent {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
 
   .rightContent {
     order: 2;
     flex-direction: row;
     align-items: baseline;
-    gap: 8px;
+    /* price to subprice horizontal gap = 12px */
+    gap: 12px;
   }
 
+  /* Typography */
   .title {
-    font-size: 16px;
+    font-size: 16px; /* 16 demi bold */
   }
 
   .address {
-    font-size: 12px;
+    font-size: 12px; /* 12 medium */
     font-weight: var(--font-weight-medium);
   }
 
+  .labelTop {
+    font-size: 14px; /* 14 regular */
+    font-weight: var(--font-weight-regular);
+  }
+
   .labelBot {
-    font-size: 14px;
+    font-size: 14px; /* 14 regular */
   }
 
   .price h1 {
-    font-size: 16px;
+    font-size: 16px; /* 16 demi bold */
     font-weight: var(--font-weight-demibold);
   }
 
   .priceFrom {
-    font-size: 12px;
+    font-size: 12px; /* 12 medium */
     font-weight: var(--font-weight-medium);
   }
 
+  /* Description */
+  .descriptionSection.visible {
+    /* gap from topContent to description = 12px */
+    margin-top: 12px;
+  }
+
+  .descriptionText {
+    font-size: 14px; /* isi deskripsi 14px regular */
+    /* antar descriptionText = 12px */
+    margin-bottom: 12px;
+  }
+
+  .descriptionText:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Gap from previous section (topContent or description) to the button = 12px */
+  .bottomContent {
+    margin-top: 12px; /* override desktop auto push */
+  }
+
   .bottomContent button {
-    font-size: 14px;
+    font-size: 14px; /* See/Hide description 14px Demi Bold */
     font-weight: var(--font-weight-demibold);
   }
+
+  /* title ↔ address = 2px */
+  .textLeftTopContent {
+    gap: 2px;
+  }
 }
-
-
