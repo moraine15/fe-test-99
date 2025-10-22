@@ -1,6 +1,11 @@
-1 Install 
-npm install --legacy-peer-deps
+Setup & Installation Steps
+1.  Download and extract the code's ZIP file to your chosen location.
+2.  Open the project folder using Visual Studio Code.
+3.  Open the integrated terminal within VS Code.
+4.  Install all required dependencies by running:
 
-2.Start
-set NODE_OPTIONS=--openssl-legacy-provider
-npm start
+    npm install
+
+5.  Once the installation is complete, run the project:
+
+    npm start
