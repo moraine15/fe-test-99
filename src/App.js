@@ -1,112 +1,86 @@
 import { useState, useEffect } from 'react';
 import './styles.css';
 
-// Izinkan spasi atau dash di antara 4-4 digit (format SG: mulai 3/6/8/9)
-const phoneRegex = /\b([3689]\d{3})[ -]?(\d{4})\b/g;
+// SG phone: 8 digits starting with 3/6/8/9; space/dash between blocks is optional.
+const PHONE_REGEX = /\b([3689]\d{3})[ -]?(\d{4})\b/g;
 
-// Helper function to anonymize phone numbers
-function anonymizePhone(text) {
-  // Singapore phone format: 8 digits, starts with 3, 6, 8, or 9
-  // const phoneRegex = /\b([3689]\d{3})(\d{4})\b/g;
-  return text.replace(phoneRegex, '$1 XXXX');
-}
-
-// Helper function to create clickable phone numbers
 function PhoneNumber({ number }) {
+  // Mask phone until clicked.
   const [revealed, setRevealed] = useState(false);
-  const digits = (number || '').replace(/\D/g, '');
-  const anonymized = digits.slice(0, 4) + ' XXXX';
-  const formatted = digits.length === 8
-    ? digits.replace(/(\d{4})(\d{4})/, '$1 $2')
-    : number;
+  const digits = String(number || '').replace(/\D/g, '');
+  const formatted =
+    digits.length === 8 ? digits.replace(/(\d{4})(\d{4})/, '$1 $2') : String(number || '');
+  const masked = digits.length >= 4 ? `${digits.slice(0, 4)} XXXX` : formatted;
 
   return (
-    <span 
+    <span
       className="phone-number"
       onClick={() => setRevealed(true)}
-      style={{ 
+      style={{
         cursor: revealed ? 'default' : 'pointer',
         textDecoration: 'none',
         color: revealed ? 'inherit' : '#2563EB'
       }}
     >
-      {revealed ? formatted : anonymized}
+      {revealed ? formatted : masked}
     </span>
   );
 }
 
-// Gabungkan baris terputus menjadi paragraf rapi (UI/UX friendly)
+// Merge broken lines into clean paragraphs.
 function normalizeDescription(text) {
-  const lines = String(text || '').replace(/\r\n?/g, '\n').split('\n');
-  const paragraphs = [];
-  let buffer = '';
-
-  const flush = () => {
-    const cleaned = buffer
-      .replace(/\s+/g, ' ')           // rapikan spasi
-      .replace(/\s([.,!?;:])/g, '$1') // hilangkan spasi sebelum tanda baca
-      .trim();
-    if (cleaned) paragraphs.push(cleaned);
-    buffer = '';
-  };
-
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i].trim();
-    if (!line) {        // baris kosong = pemisah paragraf
-      flush();
-      continue;
-    }
-    buffer += (buffer ? ' ' : '') + line; // gabungkan baris menjadi satu paragraf
-  }
-  flush();
-  return paragraphs;
+  const normalized = String(text || '').replace(/\r\n?/g, '\n');
+  return normalized
+    .split(/\n{2,}/)
+    .map(p => p.trim())
+    .filter(Boolean);
 }
 
-// Parse description and replace phone numbers with clickable components
+// Convert detected phones into clickable components.
 function parseDescription(text) {
-  phoneRegex.lastIndex = 0; // penting: reset regex global sebelum parse
+  const input = String(text || '');
+  PHONE_REGEX.lastIndex = 0;
   const parts = [];
   let lastIndex = 0;
   let match;
 
-  while ((match = phoneRegex.exec(text)) !== null) {
-    if (match.index > lastIndex) {
-      parts.push(text.slice(lastIndex, match.index));
-    }
+  while ((match = PHONE_REGEX.exec(input)) !== null) {
+    if (match.index > lastIndex) parts.push(input.slice(lastIndex, match.index));
     parts.push(<PhoneNumber key={match.index} number={match[0]} />);
     lastIndex = match.index + match[0].length;
   }
-  if (lastIndex < text.length) {
-    parts.push(text.slice(lastIndex));
-  }
+  if (lastIndex < input.length) parts.push(input.slice(lastIndex));
   return parts;
 }
 
 export default function ListingAd({
-  flag, arrow_left, arrow_right, price, icon, pic, title, address, 
-  description, availabilities_label, subprice_label, project_type, 
-  year, ownership_type 
+  flag,
+  arrow_left,
+  arrow_right,
+  price,
+  icon,
+  pic,
+  title,
+  address,
+  description,
+  availabilities_label,
+  subprice_label,
+  project_type,
+  year,
+  ownership_type
 }) {
-  const [isDescriptionVisible, setIsDescriptionVisible] = useState(false);
-  const [shouldHideInitially, setShouldHideInitially] = useState(false);
-  
-  // For SEO: show description initially, then hide after page load
-  useEffect(() => {
-    setShouldHideInitially(true);
-  }, []);
-  
-  const toggleDescription = () => {
-    setIsDescriptionVisible(!isDescriptionVisible);
-  };
-  
-  const displayDescription = !shouldHideInitially || isDescriptionVisible;
-  
+  // SEO: show description on first paint, then let user expand.
+  const [showDescription, setShowDescription] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const isDescriptionVisible = !mounted || showDescription;
+
   return (
     <div className="App">
       <div className="imageContainer">
         {flag && <img className="flag" src={flag} alt="Flag" />}
         <img className="mainPic" src={pic} alt={title} />
-        
+
         <button className="arrowBtn arrowLeft">
           <img src={arrow_left} alt="Previous" />
         </button>
@@ -114,7 +88,7 @@ export default function ListingAd({
           <img src={arrow_right} alt="Next" />
         </button>
       </div>
-      
+
       <div className="mainContent">
         <div className="topContent">
           <div className="leftContent">
@@ -126,7 +100,9 @@ export default function ListingAd({
               </div>
             </div>
             <div className="leftBotContent">
-              <p className="labelTop">{project_type} · {year} · {ownership_type}</p>
+              <p className="labelTop">
+                {project_type} · {year} · {ownership_type}
+              </p>
               <p className="labelBot">{availabilities_label}</p>
             </div>
           </div>
@@ -139,25 +115,19 @@ export default function ListingAd({
           </div>
         </div>
 
-        <div className={`descriptionSection ${displayDescription ? 'visible' : ''}`}>
+        <div className={`descriptionSection ${isDescriptionVisible ? 'visible' : ''}`}>
           <div className="description">
-            {String(description || '')
-              .replace(/\r\n?/g, '\n')
-              .split('\n')
-              .map((line, index) => (
-                line.trim() ? (
-                  <p key={index} className="descriptionText">
-                    {parseDescription(line)}
-                  </p>
-                ) : null
-              ))
-            }
+            {normalizeDescription(description).map((p, i) => (
+              <p key={i} className="descriptionText">
+                {parseDescription(p)}
+              </p>
+            ))}
           </div>
         </div>
 
         <div className="bottomContent">
-          <button onClick={toggleDescription}>
-            {isDescriptionVisible ? 'Hide description' : 'See description'}
+          <button onClick={() => setShowDescription(v => !v)}>
+            {showDescription ? 'Hide description' : 'See description'}
           </button>
         </div>
       </div>

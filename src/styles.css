@@ -1,3 +1,4 @@
+/* Design tokens: global variables for typography, colors, spacing, sizing */
 :root {
   --font-family-primary: 'Avenir', Arial, Helvetica, sans-serif;
   --font-weight-regular: 400;
@@ -8,6 +9,9 @@
   --font-size-16: 16px;
   --font-size-19: 19px;
   --font-size-20: 20px;
+  --font-size-mobile-12: 12px;
+  --font-size-mobile-14: 14px;
+  --font-size-mobile-16: 16px;
   --color-primary: #1A2258;
   --color-primary-light: #2563EB;
   --color-text-secondary: #787D9C;
@@ -19,6 +23,7 @@
   --gap-4: 4px;
   --gap-12: 12px;
   --gap-24: 24px;
+  --gap-mobile-16: 16px;
   --card-width: 544px;
   --card-height: 470px;
   --image-container-width: 552px;
@@ -32,6 +37,7 @@
   --shadow-card: 0px 4px 16px 0px #0B113433;
 }
 
+/* Typography: Avenir font faces (use swap for better CLS) */
 @font-face {
   font-family: 'Avenir';
   src: url('fonts/avenir-regular.woff2') format('woff2');
@@ -64,12 +70,14 @@
   font-display: swap;
 }
 
+/* Base reset: strip default margins and let components control font-size */
 h1, h2, h3, p, ul, li, a, body, img {
   margin: 0;
   padding: 0;
   font-size: unset;
 }
 
+/* Page baseline layout: center card on neutral background */
 body {
   display: flex;
   justify-content: center;
@@ -79,6 +87,7 @@ body {
   font-family: var(--font-family-primary);
 }
 
+/* Card container (ListingAd root): shadow, radius, vertical layout */
 .App {
   text-align: center;
   width: var(--card-width);
@@ -92,6 +101,7 @@ body {
   transition: min-height 300ms ease;
 }
 
+/* Main image: fixed aspect with rounded top corners */
 .mainPic {
   width: var(--image-width);
   height: var(--image-height);
@@ -100,43 +110,47 @@ body {
   margin: 0 4px;
 }
 
+/* Small icon next to title */
 .icon {
   width: var(--icon-size);
   height: var(--icon-size);
   flex-shrink: 0;
 }
 
+/* Main content area: vertical stack with inner padding */
 .mainContent {
   display: flex;
   flex-direction: column;
   align-items: center;
   min-height: var(--content-height);
   width: var(--content-width);
-  padding:24px ;
+  padding: 24px;
 }
 
+/* Top row: left info block + right price block */
 .topContent {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
   height: var(--top-content-height);
-  width: var(--content-width);
 }
 
+/* Left column: title/address + metadata labels */
 .leftContent {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
+/* Title row: icon + text */
 .leftTopContent {
   display: flex;
   align-items: center;
-  gap: var(--gap-12);
-  gap: 16px; /* logo ↔ textLeftTopContent = 16px */
+  gap: 16px;
 }
 
+/* Title/address stack with tight vertical gap */
 .textLeftTopContent {
   display: flex;
   flex-direction: column;
@@ -144,6 +158,7 @@ body {
   text-align: left;
 }
 
+/* Metadata labels (project type, availability) */
 .leftBotContent {
   display: flex;
   flex-direction: column;
@@ -153,12 +168,12 @@ body {
   margin-top: auto;
 }
 
+/* Typography: primary title + address + labels */
 .title {
-  font-size: var(--font-size-20);
   font-weight: var(--font-weight-demibold);
   color: var(--color-primary);
   line-height: 1.2;
-  font-size: 23px; /* Forett At Bukit Timah 23 DemiBold */
+  font-size: 23px;
 }
 
 .address {
@@ -180,6 +195,7 @@ body {
   color: var(--color-text-tertiary);
 }
 
+/* Right column: price and subprice */
 .rightContent {
   display: flex;
   flex-direction: column;
@@ -200,7 +216,7 @@ body {
   color: var(--color-text-muted);
 }
 
-/* Description Section */
+/* Description: collapsible section with smooth height/opacity transition */
 .descriptionSection {
   width: 100%;
   max-height: 0;
@@ -212,8 +228,7 @@ body {
 .descriptionSection.visible {
   max-height: 1000px;
   opacity: 1;
-  margin-top: var(--gap-24);
-  margin-top: 12px; /* gap with topContent when visible = 12px */
+  margin-top: 12px;
 }
 
 .description {
@@ -221,31 +236,33 @@ body {
   text-align: left;
 }
 
+/* Description paragraphs with comfortable line-height and spacing */
 .descriptionText {
   font-size: var(--font-size-16);
   font-weight: var(--font-weight-regular);
   color: var(--color-text-tertiary);
   line-height: 1.5;
-  margin-bottom: 8px;
-  margin-bottom: 12px; /* antar paragraph deskripsi = 12px */
+  margin-bottom: 12px;
+  white-space: pre-line;
 }
 
 .descriptionText:last-child {
   margin-bottom: 0;
 }
 
+/* Inline phone number (click-to-reveal in App.js) */
 .phone-number {
   display: inline;
 }
 
+/* Toggle button styled as link (See/Hide description) */
 .bottomContent {
   width: 100%;
   text-align: right;
   background: none;
   border: none;
   color: var(--color-primary-light);
-  margin-top: auto;
-  margin-top: 12px; /* gap topContent ↔ See/Hide description = 12px (also 12px after descriptionSection) */
+  margin-top: 12px;
 }
 
 .bottomContent button {
@@ -266,7 +283,7 @@ body {
   color: #1757D7;
 }
 
-/* Image container prepared for positioned arrows + inner shadow */
+/* Image gallery: container for main image, flag, and arrows */
 .imageContainer {
   position: relative;
   width: var(--image-container-width);
@@ -276,7 +293,7 @@ body {
   margin-left: -4px;
 }
 
-/* Inner shadow on left, right, and bottom (appears on hover/focus) */
+/* Inner fade edges on hover/focus to hint overflow (left/right/bottom) */
 .imageContainer::after {
   content: "";
   position: absolute;
@@ -299,7 +316,7 @@ body {
   opacity: 1;
 }
 
-/* Arrow buttons: transparent, exact size, animated reveal */
+/* Carousel arrows: transparent buttons that reveal on hover/focus */
 .arrowBtn {
   position: absolute;
   top: 50%;
@@ -323,18 +340,18 @@ body {
   display: block;
 }
 
-/* Left and right placement with initial slide offset */
+/* Arrow positions with slight slide-in animation */
 .arrowLeft { left: 20px;  transform: translate(-8px, -50%); }
 .arrowRight { right: 20px; transform: translate(8px, -50%); }
 
-/* Reveal on hover/focus of the image container */
+/* Reveal arrows when gallery is hovered/focused */
 .imageContainer:hover .arrowBtn,
 .imageContainer:focus-within .arrowBtn {
   opacity: 1;
   transform: translate(0, -50%);
 }
 
-/* Flag positioned in the extended area */
+/* Featured flag badge (non-interactive) */
 .flag {
   position: absolute;
   top: 6px;
@@ -343,126 +360,121 @@ body {
   pointer-events: none;
 }
 
+/* Responsive: Mobile layout <= 675px */
 @media (max-width: 675px) {
+  /* Token overrides for mobile card/image/content sizes and gaps */
   :root {
     --card-width: 343px;
     --card-height: 351px;
     --image-width: 343px;
     --image-height: 160.62px;
     --content-width: 311px;
-    --gap-24: 16px;
+    --gap-24: var(--gap-mobile-16);
   }
 
+  /* Card auto-height on mobile */
   .App {
     width: var(--card-width);
-    /* make card auto-fit content to remove extra empty space */
     min-height: auto;
   }
 
+  /* Image container expands for hover areas */
   .imageContainer {
     width: calc(var(--image-width) + 8px);
     margin-left: -4px;
   }
 
-  .mainPic {
-    width: var(--image-width);
-    height: var(--image-height);
-  }
-
+  /* Main content padding and alignment adjustments */
   .mainContent {
     width: var(--content-width);
     min-height: auto;
     align-items: flex-start;
-    /* margin/padding main content = 16px as requested */
-    padding: 16px;
+    padding: var(--gap-mobile-16);
   }
 
+  /* Stack top row; define inter-section gaps */
   .topContent {
     flex-direction: column;
     align-items: flex-start;
-    /* leftContent (top) to rightContent gap = 12px */
-    gap: 12px;
+    gap: var(--gap-12);
     width: 100%;
     height: auto;
   }
 
-  /* gap building icon dengan left top content = 16px */
+  /* Icon-to-text gap on mobile */
   .leftTopContent {
     gap: 16px;
   }
 
-  /* gap dari left top content ke leftBotContent = 12px */
+  /* Metadata spacing below title/address */
   .leftContent {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: var(--gap-12);
   }
 
+  /* Price row compacts horizontally */
   .rightContent {
     order: 2;
     flex-direction: row;
     align-items: baseline;
-    /* price to subprice horizontal gap = 12px */
-    gap: 12px;
+    gap: var(--gap-12);
   }
 
-  /* Typography */
+  /* Mobile typography scale */
   .title {
-    font-size: 16px; /* 16 demi bold */
+    font-size: var(--font-size-mobile-16);
   }
 
   .address {
-    font-size: 12px; /* 12 medium */
+    font-size: var(--font-size-mobile-12);
     font-weight: var(--font-weight-medium);
   }
 
   .labelTop {
-    font-size: 14px; /* 14 regular */
+    font-size: var(--font-size-mobile-14);
     font-weight: var(--font-weight-regular);
   }
 
   .labelBot {
-    font-size: 14px; /* 14 regular */
+    font-size: var(--font-size-mobile-14);
   }
 
   .price h1 {
-    font-size: 16px; /* 16 demi bold */
+    font-size: var(--font-size-mobile-16);
     font-weight: var(--font-weight-demibold);
   }
 
   .priceFrom {
-    font-size: 12px; /* 12 medium */
+    font-size: var(--font-size-mobile-12);
     font-weight: var(--font-weight-medium);
   }
 
-  /* Description */
+  /* Spacing for description and toggle on mobile */
   .descriptionSection.visible {
-    /* gap from topContent to description = 12px */
-    margin-top: 12px;
+    margin-top: var(--gap-12);
   }
 
   .descriptionText {
-    font-size: 14px; /* isi deskripsi 14px regular */
-    /* antar descriptionText = 12px */
-    margin-bottom: 12px;
+    font-size: var(--font-size-mobile-14);
+    margin-bottom: var(--gap-12);
   }
 
   .descriptionText:last-child {
     margin-bottom: 0;
   }
 
-  /* Gap from previous section (topContent or description) to the button = 12px */
   .bottomContent {
-    margin-top: 12px; /* override desktop auto push */
+    margin-top: var(--gap-12);
   }
 
   .bottomContent button {
-    font-size: 14px; /* See/Hide description 14px Demi Bold */
+    font-size: var(--font-size-mobile-14);
     font-weight: var(--font-weight-demibold);
   }
 
-  /* title ↔ address = 2px */
+  /* Tighten gap between title and address */
   .textLeftTopContent {
-    gap: 2px;
+    gap: var(--gap-2);
   }
 }

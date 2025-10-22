@@ -20,8 +20,8 @@ const store = {
 Superb 3 bedroom in sentosa for a very affordable price and a very nearby bus station.
 
 Please call Alex B (CEA No: R0123456) @  82345678 or the owner (83456789) to arrange for a viewing.`,
-  arrow_left:"/Chevron left.svg",
-  arrow_right:"/Chevron right.svg",
+  arrow_left:"/chevron-left.svg",
+  arrow_right:"/chevron-right.svg",
   flag:"/flag.png"
 };
 
