@@ -10,7 +10,7 @@ Finally, this'll provide us with insights on your working style.
 
 You have 7 days to complete the challenge.
 
-Please fork this (from within [CodeSandbox link here](https://codesandbox.io/s/github/alexbiediger/frontend-test)) and once you complete, send us back the forked CodeSandbox link to  nafhul.arsyad@99.co, ilmiyantif@99.co and mochamad.redja@99.co
+Please fork this (from within [CodeSandbox link here](https://codesandbox.io/s/github/alexbiediger/frontend-test)) and once you complete, send us back the forked CodeSandbox link to nafhul.arsyad@99.co, rizqireza.valhevi@99.co, ilmiyantif@99.co and mochamad.redja@99.co
 
 ## Questions
 
@@ -27,8 +27,6 @@ Please fork this (from within [CodeSandbox link here](https://codesandbox.io/s/g
 4. Line returns (new lines) in the description text should be displayed on page. The text must NOT be all in one line.
 
 5. Clicking on phone number reveals the real number
-
-
 
 ### Styling
 
