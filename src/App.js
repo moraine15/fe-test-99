@@ -1,8 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import './styles.css';
-
-// SG phone: 8 digits starting with 3/6/8/9; space/dash between blocks is optional.
-const PHONE_REGEX = /\b([3689]\d{3})[ -]?(\d{4})\b/g;
 
 function PhoneNumber({ number }) {
   // Mask phone until clicked.
@@ -14,12 +12,15 @@ function PhoneNumber({ number }) {
 
   return (
     <span
-      className="phone-number"
+      className={`phone-number ${revealed ? 'revealed' : 'masked'}`}
+      role="button"
+      tabIndex={revealed ? -1 : 0}
       onClick={() => setRevealed(true)}
-      style={{
-        cursor: revealed ? 'default' : 'pointer',
-        textDecoration: 'none',
-        color: revealed ? 'inherit' : '#2563EB'
+      onKeyDown={(e) => {
+        if (!revealed && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault();
+          setRevealed(true);
+        }
       }}
     >
       {revealed ? formatted : masked}
@@ -39,14 +40,17 @@ function normalizeDescription(text) {
 // Convert detected phones into clickable components.
 function parseDescription(text) {
   const input = String(text || '');
-  PHONE_REGEX.lastIndex = 0;
+  // Create a fresh regex per call to avoid shared lastIndex state
+  const regex = /\b([3689]\d{3})[ -]?(\d{4})\b/g;
+
   const parts = [];
   let lastIndex = 0;
   let match;
 
-  while ((match = PHONE_REGEX.exec(input)) !== null) {
+  while ((match = regex.exec(input)) !== null) {
     if (match.index > lastIndex) parts.push(input.slice(lastIndex, match.index));
-    parts.push(<PhoneNumber key={match.index} number={match[0]} />);
+    // Use a prefixed string key to avoid raw numeric keys
+    parts.push(<PhoneNumber key={`phone-${match.index}`} number={match[0]} />);
     lastIndex = match.index + match[0].length;
   }
   if (lastIndex < input.length) parts.push(input.slice(lastIndex));
@@ -74,6 +78,13 @@ export default function ListingAd({
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
   const isDescriptionVisible = !mounted || showDescription;
+
+  // Memoize normalization and parsing to avoid rework every render
+  const paragraphs = useMemo(() => normalizeDescription(description), [description]);
+  const parsedParagraphs = useMemo(
+    () => paragraphs.map((p) => parseDescription(p)),
+    [paragraphs]
+  );
 
   return (
     <div className="App">
@@ -117,9 +128,9 @@ export default function ListingAd({
 
         <div className={`descriptionSection ${isDescriptionVisible ? 'visible' : ''}`}>
           <div className="description">
-            {normalizeDescription(description).map((p, i) => (
-              <p key={i} className="descriptionText">
-                {parseDescription(p)}
+            {parsedParagraphs.map((content, i) => (
+              <p key={`p-${i}`} className="descriptionText">
+                {content}
               </p>
             ))}
           </div>
@@ -134,3 +145,24 @@ export default function ListingAd({
     </div>
   );
 }
+
+PhoneNumber.propTypes = {
+  number: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+};
+
+ListingAd.propTypes = {
+  flag: PropTypes.string,
+  arrow_left: PropTypes.string,
+  arrow_right: PropTypes.string,
+  price: PropTypes.string,
+  icon: PropTypes.string,
+  pic: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  address: PropTypes.string.isRequired,
+  description: PropTypes.string,
+  availabilities_label: PropTypes.string,
+  subprice_label: PropTypes.string,
+  project_type: PropTypes.string,
+  year: PropTypes.number,
+  ownership_type: PropTypes.string
+};
