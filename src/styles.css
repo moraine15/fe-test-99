@@ -1,11 +1,480 @@
+/* Design tokens: global variables for typography, colors, spacing, sizing */
+:root {
+  --font-family-primary: 'Avenir', Arial, Helvetica, sans-serif;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-demibold: 700;
+  --font-weight-bold: 900;
+  --font-size-14: 14px;
+  --font-size-16: 16px;
+  --font-size-19: 19px;
+  --font-size-20: 20px;
+  --font-size-mobile-12: 12px;
+  --font-size-mobile-14: 14px;
+  --font-size-mobile-16: 16px;
+  --color-primary: #1A2258;
+  --color-primary-light: #2563EB;
+  --color-text-secondary: #787D9C;
+  --color-text-tertiary: #374151;
+  --color-text-muted: #6B7280;
+  --color-background: #FFFFFF;
+  --color-background-page: #DBDBDB;
+  --gap-2: 2px;
+  --gap-4: 4px;
+  --gap-12: 12px;
+  --gap-24: 24px;
+  --gap-mobile-16: 16px;
+  --card-width: 544px;
+  --card-height: 470px;
+  --image-container-width: 552px;
+  --image-width: 544px;
+  --image-height: 272px;
+  --content-width: 496px;
+  --content-height: 150px;
+  --top-content-height: 112px;
+  --icon-size: 40px;
+  --border-radius: 4px;
+  --shadow-card: 0px 4px 16px 0px #0B113433;
+}
+
+/* Typography: Avenir font faces (use swap for better CLS) */
+@font-face {
+  font-family: 'Avenir';
+  src: url('fonts/avenir-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir';
+  src: url('fonts/avenir-medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir';
+  src: url('fonts/avenir-demibold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir';
+  src: url('fonts/avenir-bold.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Base reset: strip default margins and let components control font-size */
+h1, h2, h3, p, ul, li, a, body, img {
+  margin: 0;
+  padding: 0;
+  font-size: unset;
+}
+
+/* Page baseline layout: center card on neutral background */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--color-background-page);
+  font-family: var(--font-family-primary);
+}
+
+/* Card container (ListingAd root): shadow, radius, vertical layout */
 .App {
-  font-family: sans-serif;
   text-align: center;
-  border: 1px solid black;
+  width: var(--card-width);
+  min-height: var(--card-height);
+  background-color: var(--color-background);
+  box-shadow: var(--shadow-card);
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  transition: min-height 300ms ease;
 }
 
+/* Main image: fixed aspect with rounded top corners */
 .mainPic {
+  width: var(--image-width);
+  height: var(--image-height);
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  vertical-align: top;
+  margin: 0 4px;
 }
 
+/* Small icon next to title */
+.icon {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  flex-shrink: 0;
+}
+
+/* Main content area: vertical stack with inner padding */
 .mainContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: var(--content-height);
+  width: var(--content-width);
+  padding: 24px;
+}
+
+/* Top row: left info block + right price block */
+.topContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  height: var(--top-content-height);
+}
+
+/* Left column: title/address + metadata labels */
+.leftContent {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Title row: icon + text */
+.leftTopContent {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Title/address stack with tight vertical gap */
+.textLeftTopContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-4);
+  text-align: left;
+}
+
+/* Metadata labels (project type, availability) */
+.leftBotContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-2);
+  width: 100%;
+  text-align: left;
+  margin-top: auto;
+}
+
+/* Typography: primary title + address + labels */
+.title {
+  font-weight: var(--font-weight-demibold);
+  color: var(--color-primary);
+  line-height: 1.2;
+  font-size: 23px;
+}
+
+.address {
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+.labelTop {
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-tertiary);
+}
+
+.labelBot {
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-tertiary);
+}
+
+/* Right column: price and subprice */
+.rightContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--gap-4);
+  text-align: right;
+}
+
+.price {
+  font-size: var(--font-size-19);
+  font-weight: var(--font-weight-demibold);
+  color: var(--color-primary);
+}
+
+.priceFrom {
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-muted);
+}
+
+/* Description: collapsible section with smooth height/opacity transition */
+.descriptionSection {
+  width: 100%;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 300ms ease, opacity 300ms ease, margin-top 300ms ease;
+}
+
+.descriptionSection.visible {
+  max-height: 1000px;
+  opacity: 1;
+  margin-top: 12px;
+}
+
+.description {
+  width: 100%;
+  text-align: left;
+}
+
+/* Description paragraphs with comfortable line-height and spacing */
+.descriptionText {
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-tertiary);
+  line-height: 1.5;
+  margin-bottom: 12px;
+  white-space: pre-line;
+}
+
+.descriptionText:last-child {
+  margin-bottom: 0;
+}
+
+/* Inline phone number (click-to-reveal in App.js) */
+.phone-number {
+  display: inline;
+}
+
+/* Toggle button styled as link (See/Hide description) */
+.bottomContent {
+  width: 100%;
+  text-align: right;
+  background: none;
+  border: none;
+  color: var(--color-primary-light);
+  margin-top: 12px;
+}
+
+.bottomContent button {
+  background: none;
+  border: none;
+  color: var(--color-primary-light);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-demibold);
+  font-family: inherit;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+
+.bottomContent button:hover {
+  color: #1757D7;
+}
+
+/* Image gallery: container for main image, flag, and arrows */
+.imageContainer {
+  position: relative;
+  width: var(--image-container-width);
+  height: var(--image-height);
+  overflow: visible;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  margin-left: -4px;
+}
+
+/* Inner fade edges on hover/focus to hint overflow (left/right/bottom) */
+.imageContainer::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 0;
+  width: var(--image-width);
+  height: 100%;
+  pointer-events: none;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  opacity: 0;
+  transition: opacity 180ms ease;
+  background:
+    linear-gradient(to right, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 100%) left center / 90px 100% no-repeat,
+    linear-gradient(to left,  rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 100%) right center / 90px 100% no-repeat,
+    linear-gradient(to top,   rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%) center bottom / 100% 90px no-repeat;
+}
+
+.imageContainer:hover::after,
+.imageContainer:focus-within::after {
+  opacity: 1;
+}
+
+/* Carousel arrows: transparent buttons that reveal on hover/focus */
+.arrowBtn {
+  position: absolute;
+  top: 50%;
+  width: 15.95px;
+  height: 27.72px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  z-index: 2;
+
+  opacity: 0;
+  transform: translateY(-50%);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.arrowBtn img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Arrow positions with slight slide-in animation */
+.arrowLeft { left: 20px;  transform: translate(-8px, -50%); }
+.arrowRight { right: 20px; transform: translate(8px, -50%); }
+
+/* Reveal arrows when gallery is hovered/focused */
+.imageContainer:hover .arrowBtn,
+.imageContainer:focus-within .arrowBtn {
+  opacity: 1;
+  transform: translate(0, -50%);
+}
+
+/* Featured flag badge (non-interactive) */
+.flag {
+  position: absolute;
+  top: 6px;
+  left: 0px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Responsive: Mobile layout <= 675px */
+@media (max-width: 675px) {
+  /* Token overrides for mobile card/image/content sizes and gaps */
+  :root {
+    --card-width: 343px;
+    --card-height: 351px;
+    --image-width: 343px;
+    --image-height: 160.62px;
+    --content-width: 311px;
+    --gap-24: var(--gap-mobile-16);
+  }
+
+  /* Card auto-height on mobile */
+  .App {
+    width: var(--card-width);
+    min-height: auto;
+  }
+
+  /* Image container expands for hover areas */
+  .imageContainer {
+    width: calc(var(--image-width) + 8px);
+    margin-left: -4px;
+  }
+
+  /* Main content padding and alignment adjustments */
+  .mainContent {
+    width: var(--content-width);
+    min-height: auto;
+    align-items: flex-start;
+    padding: var(--gap-mobile-16);
+  }
+
+  /* Stack top row; define inter-section gaps */
+  .topContent {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--gap-12);
+    width: 100%;
+    height: auto;
+  }
+
+  /* Icon-to-text gap on mobile */
+  .leftTopContent {
+    gap: 16px;
+  }
+
+  /* Metadata spacing below title/address */
+  .leftContent {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-12);
+  }
+
+  /* Price row compacts horizontally */
+  .rightContent {
+    order: 2;
+    flex-direction: row;
+    align-items: baseline;
+    gap: var(--gap-12);
+  }
+
+  /* Mobile typography scale */
+  .title {
+    font-size: var(--font-size-mobile-16);
+  }
+
+  .address {
+    font-size: var(--font-size-mobile-12);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .labelTop {
+    font-size: var(--font-size-mobile-14);
+    font-weight: var(--font-weight-regular);
+  }
+
+  .labelBot {
+    font-size: var(--font-size-mobile-14);
+  }
+
+  .price h1 {
+    font-size: var(--font-size-mobile-16);
+    font-weight: var(--font-weight-demibold);
+  }
+
+  .priceFrom {
+    font-size: var(--font-size-mobile-12);
+    font-weight: var(--font-weight-medium);
+  }
+
+  /* Spacing for description and toggle on mobile */
+  .descriptionSection.visible {
+    margin-top: var(--gap-12);
+  }
+
+  .descriptionText {
+    font-size: var(--font-size-mobile-14);
+    margin-bottom: var(--gap-12);
+  }
+
+  .descriptionText:last-child {
+    margin-bottom: 0;
+  }
+
+  .bottomContent {
+    margin-top: var(--gap-12);
+  }
+
+  .bottomContent button {
+    font-size: var(--font-size-mobile-14);
+    font-weight: var(--font-weight-demibold);
+  }
+
+  /* Tighten gap between title and address */
+  .textLeftTopContent {
+    gap: var(--gap-2);
+  }
 }
