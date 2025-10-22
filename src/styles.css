@@ -255,6 +255,22 @@ body {
   display: inline;
 }
 
+.phone-number.masked {
+  cursor: pointer;
+  color: var(--color-primary-light);
+}
+
+.phone-number.masked:focus-visible {
+  outline: 2px solid var(--color-primary-light);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.phone-number.revealed {
+  cursor: default;
+  color: inherit;
+}
+
 /* Toggle button styled as link (See/Hide description) */
 .bottomContent {
   width: 100%;
